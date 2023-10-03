@@ -1,0 +1,15 @@
+= form_with(model: @auto) do |form|
+  - if @auto.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(@auto.errors.count, "error")} prohibited this audi from being saved:"
+      ul
+        - @auto.errors.each do |error|
+          li = error.full_message
+
+  .container
+    .mb-3
+      = form.label :brand, style: "color: white"
+      = form.text_field :brand, class: "form-control"
+    
+    = link_to "Back to auto", autos_path, class: "btn btn-secondary"
+    = form.submit class:"btn btn-outline-success"

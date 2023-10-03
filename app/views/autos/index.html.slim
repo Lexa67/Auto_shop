@@ -1,0 +1,12 @@
+.container
+  .row
+    h1 style="color: white" Auto
+    = link_to "New auto", new_auto_path, class:"btn gradient_knopka col-md-2 offset-md-10"
+
+
+    #autos
+    .card
+      strong Brands: 
+      - @autos.each do |auto|
+        == render auto
+

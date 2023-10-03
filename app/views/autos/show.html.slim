@@ -1,0 +1,14 @@
+
+.card style="width: 900px"
+  div
+    strong Brand: 
+    = @auto.brand
+
+.container.col-md-5.offset-md-6
+  div class="button_box" style="display: flex;"
+    =< link_to "Back to all auto", autos_path, class: "btn btn-secondary"
+
+    => link_to "Edit this auto", edit_auto_path(@auto),class: "btn btn-outline-warning"
+
+    = button_to "Destroy this auto", @auto, method: :delete, class: "btn btn-danger"
+

@@ -1,0 +1,11 @@
+.container
+  .row
+    h1 style="color: white" Cars
+    = link_to "New car", new_car_path, class:"btn gradient_knopka col-md-2 offset-md-10"
+
+    .card
+      - @cars.each do |car|
+        == render car
+        
+    
+

@@ -1,0 +1,28 @@
+p style="color: green" = notice
+
+.card style="width: 800px"
+  strong 
+    =< link_to "#{@car.auto.brand}", cars_path(auto_id: @car.auto_id), class:"btn btn-outline-dark", style: "font-size: 30px"
+  p
+    strong Model:
+    =< @car.model
+  p
+    strong Year:
+    =< @car.year
+  p
+    strong Color:
+    =< @car.color
+  p
+    strong Price:
+    =< @car.price
+  p
+    strong Description:
+    =< @car.description
+
+.container.col-md-5.offset-md-6
+  div class="button_box" style="display: flex;"
+    => link_to "Back to cars", cars_path(@auto),class: "btn btn-secondary"
+
+    =< link_to "Edit this car", edit_car_path, class: "btn btn-outline-warning"
+
+    = button_to "Destroy this car", @car, method: :delete, class: "btn btn-danger"
