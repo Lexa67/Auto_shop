@@ -1,0 +1,9 @@
+h1 Roles
+
+#roles
+  - @roles.each do |role|
+    == render role
+    p
+      = link_to "Show this role", role
+
+= link_to "New role", new_role_path

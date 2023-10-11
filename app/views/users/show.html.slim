@@ -1,0 +1,24 @@
+== render @user
+p
+  strong
+    | Email:
+  = @user.email
+p
+  strong
+    | Joined on:
+  = @joined_on
+p
+  strong
+    | Last logged in on:
+  = @last_login
+p
+  strong
+    | No. times logged in:
+  = @user.sign_in_count
+
+div
+  => link_to "Edit this user", edit_user_path(@user)
+  '|
+  =< link_to "Back to users", users_path
+
+  = button_to "Destroy this user", @user, method: :delete

@@ -1,0 +1,18 @@
+= form_with(model: @role) do |form|
+  - if @role.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(@role.errors.count, "error")} prohibited this role from being saved:"
+      ul
+        - @role.errors.each do |error|
+          li = error.full_message
+
+  div
+    = form.label :name, style: "display: block"
+    = form.text_field :name
+
+  div
+    = form.label :description, style: "display: block"
+    = form.text_field :description
+
+  div
+    = form.submit

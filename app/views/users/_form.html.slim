@@ -1,0 +1,27 @@
+= form_with(model: @user) do |form|
+  - if @user.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+      ul
+        - @user.errors.each do |error|
+          li = error.full_message
+  .field
+    = form.label :email
+    br
+    = form.text_field :email
+
+  div
+    = form.label :user_name, style: "display: block"
+    = form.text_field :user_name
+
+  div
+    = form.label :role_id, style: "display: block"
+    = collection_select(:user, :role_id, Role.all, :id, :role_name, { prompt: true })
+
+  .field
+    = form.label :password
+    br
+    = form.password_field :password, placeholder: "Leave blank if unchanged"
+    
+  div
+    = form.submit
