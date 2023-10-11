@@ -29,6 +29,7 @@ class CarsController < ApplicationController
   # POST /cars or /cars.json
   def create
     @car = Car.new(car_params)
+    @car.user_id = current_user.id
       if @car.save
         redirect_to cars_path, notice: 'Car was successfully created.'
       else
@@ -68,7 +69,7 @@ class CarsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def car_params
-      params.require(:car).permit(:model, :year, :color, :price, :description, :auto_id)
+      params.require(:car).permit(:model, :year, :color, :price, :description, :auto_id, :user_id)
     end
 
     

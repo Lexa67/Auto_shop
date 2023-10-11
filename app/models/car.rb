@@ -1,5 +1,6 @@
 class Car < ApplicationRecord
   belongs_to :auto
+  belongs_to :user
 
   has_rich_text :description
 
