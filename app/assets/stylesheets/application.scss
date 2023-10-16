@@ -63,7 +63,7 @@ body {
 }
 
 .card-subtitle {
-  font-size: 18px;
+  font-size: 18px ;
   color: #f00;
 }
 
@@ -115,6 +115,23 @@ body {
 
 .btn-outline-dark {
   border: 0;
+}
+
+.for_role {
+  width: 100px;
+  background-color: #f8f4f4;
+  border: 0;
+  height: 25px;
+  margin-left: 10px
+}
+
+.admin_color {
+  background-color: red;
+}
+
+.navbar-brand {
+  margin-right: 2px;
+  margin-left: 10px;
 }
 
 

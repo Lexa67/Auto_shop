@@ -20,9 +20,14 @@ p style="color: green" = notice
     =< @car.description
 
 .container.col-md-5.offset-md-6
-  div class="button_box" style="display: flex;"
-    => link_to "Back to cars", cars_path(@auto),class: "btn btn-secondary"
+  div.button_box style="display: flex; justify-content: flex-end;"
+    - if can? :destroy, @car
+      = button_to "Destroy", @car, data: { turbo_method: :delete }, class: "btn btn-danger",  style: "height: 40px"
+    - if can? :edit, @car
+      =< link_to "Edit", edit_car_path, class: "btn btn-outline-warning", style: "height: 40px"
+      
+    => link_to "Back to cars", cars_path(@auto), class: "btn btn-secondary", style: "height: 40px; margin-right: 65px;"
 
-    =< link_to "Edit this car", edit_car_path, class: "btn btn-outline-warning"
+    
 
-    = button_to "Destroy this car", @car, method: :delete, class: "btn btn-danger"
+    

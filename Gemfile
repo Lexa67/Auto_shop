@@ -79,3 +79,5 @@ end
 gem "byebug", "~> 11.1", :groups => [:development, :test]
 
 gem "devise", "~> 4.9"
+
+gem "cancancan", "~> 3.5"

@@ -5,23 +5,25 @@
       ul
         - @user.errors.each do |error|
           li = error.full_message
-  .field
-    = form.label :email
-    br
-    = form.text_field :email
+  .container style="width: 350px"
+    .mb-3
+      = form.label :email, style: ("color: white")
+      = form.text_field :email, class: "form-control"
 
-  div
-    = form.label :user_name, style: "display: block"
-    = form.text_field :user_name
+    .mb-3
+      = form.label :user_name, style: ("color: white")
+      = form.text_field :user_name, class: "form-control"
 
-  div
-    = form.label :role_id, style: "display: block"
-    = collection_select(:user, :role_id, Role.all, :id, :role_name, { prompt: true })
-
-  .field
-    = form.label :password
-    br
-    = form.password_field :password, placeholder: "Leave blank if unchanged"
+    .mb-3
+      = form.label :password, style: ("color: white")
+      = form.password_field :password, placeholder: "Leave blank if unchanged", class: "form-control"
     
-  div
-    = form.submit
+    -if can? :update, Role
+      .mb-3
+        = form.label :role_id, style: ("color: white")
+        = collection_select(:user, :role_id, Role.all, :id, :role_name, { prompt: true }, class: "form-control")
+      
+    .container.col-md-12.offset-md-2
+      div class="button_box" style="display: flex;"
+        =< link_to "Back to users", users_path, class: "btn btn-secondary"
+        = form.submit class:"btn btn-outline-success"
