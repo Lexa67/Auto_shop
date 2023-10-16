@@ -1,8 +1,7 @@
 class CarsController < ApplicationController
-  before_action :set_car, only: %i[ show edit update destroy ]
   before_action :colors, only: %i[ show new edit update destroy ]
 
-  
+  load_and_authorize_resource
   # GET /cars or /cars.json
   def index
     if params[:auto_id].present?
@@ -19,7 +18,6 @@ class CarsController < ApplicationController
 
   # GET /cars/new
   def new
-    @car = Car.new
   end
 
   # GET /cars/1/edit
@@ -28,7 +26,6 @@ class CarsController < ApplicationController
 
   # POST /cars or /cars.json
   def create
-    @car = Car.new(car_params)
     @car.user_id = current_user.id
       if @car.save
         redirect_to cars_path, notice: 'Car was successfully created.'
@@ -62,10 +59,9 @@ class CarsController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
-    def set_car
-      @car = Car.find(params[:id])
-    end
+   
 
     # Only allow a list of trusted parameters through.
     def car_params
