@@ -21,8 +21,18 @@
         | No. times logged in: 
       = @user.sign_in_count
     p
+      strong.button_box style="display: flex; justify-content: center;"
+        |Status: 
+        = @user.status
+        - if @user.blocked? && @user.role_id != 3
+          = link_to update_status_user_path(@user, status: 0), class: "btn btn-light btn-sm", style: "width: 40px; margin-top: -6px", title: "Unlock"
+            svg[xmlns="http://www.w3.org/2000/svg" width="20" height="20" color="green" fill="currentColor" class="bi bi-unlock-fill" viewBox="0 0 16 16"]
+              path[d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z"]
+        - if @user.unblocked? && @user.role_id != 3
+          = link_to update_status_user_path(@user, status: 1), class: "btn btn-light btn-sm", style: "width: 40px; margin-top: -6px", title: "Block"
+            svg[xmlns="http://www.w3.org/2000/svg" width="20" height="20" color="red" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16"]
+              path[d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"]
     = form_with(model: @user) do |form|
-
       strong.button_box style="display: flex; justify-content: center;"
         | Role:      
         = collection_select(:user, :role_id, Role.all, :id, :role_name, { prompt: true }, class: "for_role")
@@ -35,6 +45,15 @@
     .container.col-md-5.offset-md-5
       div.button_box style="display: flex; justify-content: flex-end;"
         
-        =< link_to "Back to users", :back, class: "btn btn-secondary col-md-12", style: "height: 40px; margin-right: 5px;"
+        =< link_to "Back", :back, class: "btn btn-secondary col-md-8", style: "height: 40px; margin-right: 5px;"
 
         = button_to "Destroy", @user, data: { turbo_method: :delete }, class: "btn btn-danger col-md-12", style: "height: 40px"
+    - if @cars.present?
+      h3
+        | Cars
+      - @cars.each do |car|
+        mb-1
+        = link_to "#{car.model}", car, class:"btn btn-outline-dark", style: "text-align: left"
+    - else
+      |No cars
+

@@ -1,0 +1,14 @@
+- if reply.user.status == "unblocked"
+  strong style="text-align: left"
+    = link_to "#{reply.user.user_name} ", reply.user, class: "btn btn-outline-primary", style: "font-size: 15px; padding: 3px 7px; font-weight: bold; border: 0; height: 25px"
+    i style="font-size: 12px; color: grey;"
+      = reply.created_at.strftime('%H:%M:%S ___ %d.%m.%Y')
+    .horizontal-line
+  p style="padding: 5px 10px 10px 25px"
+    - if reply.comment_id == reply.comment.id
+      = reply.content
+  div.button_box style="display: flex; justify-content: flex-end; margin-bottom: 1px; padding: 1px"
+    - if can? :edit, reply
+      = link_to "Edit", edit_reply_path(reply), class: "btn btn-warning offset-md-9", style: "font-size: 13px; padding: 3px 7px; font-weight: bold; border: 0; height: 25px"
+    - if can? :destroy, reply
+      = button_to "Destroy", reply_path(reply), method: :delete, class: "btn btn-danger offset-md-10", style: "font-size: 13px; padding: 3px 7px; font-weight: bold; border: 0; height: 25px"
