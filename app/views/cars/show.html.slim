@@ -16,18 +16,40 @@ p style="color: green" = notice
     strong Price:
     =< @car.price
   p
+    strong Seller:
+    = link_to "#{@car.user.user_name}", @car.user, class: "btn", style: "color: blue"
+  p
     strong Description:
     =< @car.description
 
-.container.col-md-5.offset-md-6
-  div.button_box style="display: flex; justify-content: flex-end;"
-    - if can? :destroy, @car
-      = button_to "Destroy", @car, data: { turbo_method: :delete }, class: "btn btn-danger",  style: "height: 40px"
-    - if can? :edit, @car
-      =< link_to "Edit", edit_car_path, class: "btn btn-outline-warning", style: "height: 40px"
-      
-    => link_to "Back to cars", cars_path(@auto), class: "btn btn-secondary", style: "height: 40px; margin-right: 65px;"
+  .container.col-md-5.offset-md-8 
+    div.button_box style="display: flex; justify-content: flex-end; margin-bottom: 1px"
+      - if can? :destroy, @car
+        = button_to "Destroy", car_path(@car), method: :delete, class: "btn btn-danger",  style: "height: 40px"
+      - if can? :edit, @car
+        =< link_to "Edit", edit_car_path, class: "btn btn-warning", style: "height: 40px"
+        
+      => link_to "Back", :back, class: "btn btn-secondary", style: "height: 40px; margin-right: 65px;"
 
-    
-
+.card style="width: 800px"
+  p class="comment_word"
+    | Comments
+  - if current_user.status == "unblocked" 
+    = form_for(Comment.new) do |f|
+      .input-group
+        = f.text_area :content, placeholder: 'Write a comment...', class: "form-control"
+        .input-group-append
+          = button_tag(type: 'submit', class: 'btn btn-light', style: 'margin-left: 10px; background-color: #f8f4f4') do
+            svg[xmlns="http://www.w3.org/2000/svg" width="16" height="50" fill="currentColor" color="blue" class="bi bi-send-fill" viewBox="0 0 16 16"]
+              path[d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"]
+      = f.hidden_field :user_id, value: current_user.id
+      = f.hidden_field :car_id, value: @car.id
+  - else
+    p style="text-align: center; color: red"
+      |You can't leave comments
+  - if @comments.present?
+    - @comments.each do |comment|
+      = render partial: 'comments/comment', locals: { comment: comment }
+  - else
+    |No comments
     

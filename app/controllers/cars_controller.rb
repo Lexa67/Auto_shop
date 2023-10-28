@@ -13,7 +13,9 @@ class CarsController < ApplicationController
 
   # GET /cars/1 or /cars/1.json
   def show
-  
+    find_replies_for_comment
+
+    @comments = Comment.where(car_id: @car.id).order(id: :desc)
   end
 
   # GET /cars/new
@@ -37,16 +39,15 @@ class CarsController < ApplicationController
 
   # PATCH/PUT /cars/1 or /cars/1.json
   def update
-      if @car.update(car_params)
-        redirect_to cars_path, notice: 'Car was successfully updated.'
-      else
-        redirect_to cars_path, alert: 'Car was not successfully updated.'
+    if @car.update(car_params)
+      redirect_to cars_path, notice: 'Car was successfully updated.'
+    else
+      redirect_to cars_path, alert: 'Car was not successfully updated.'
     end
   end
 
   # DELETE /cars/1 or /cars/1.json
   def destroy
-    @car.destroy
     if @car.destroy
       redirect_to cars_path, notice: 'Car was successfully destroyed.'
     else
@@ -68,5 +69,13 @@ class CarsController < ApplicationController
       params.require(:car).permit(:model, :year, :color, :price, :description, :auto_id, :user_id)
     end
 
-    
+    def find_replies_for_comment
+      @car = Car.find(params[:id])
+      @comments = Comment.where(car_id: @car.id).order(id: :desc)
+      @replies = []
+
+      @comments.each do |comment|
+        @replies += Reply.where(comment_id: comment.id)
+      end
+    end    
 end

@@ -1,7 +1,8 @@
 div class="button_box"
 h5 style="color: red"
-    = car.auto.brand
-    = link_to "#{car.model}", car, class:"btn btn-outline-dark"
+    - if car.user.status == "unblocked"
+        = car.auto.brand
+        = link_to "#{car.model}", car, class:"btn btn-outline-dark"
 
 
 

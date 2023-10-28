@@ -16,9 +16,41 @@ class Ability
       can :destroy, Car do |car|
         car.try(:user) == user
       end
+      can :read, Comment
+      can :create, Comment
+      can :update, Comment do |comment|
+        comment.try(:user) == user
+      end
+      can :destroy, Comment do |comment|
+        comment.try(:user) == user
+      end
+      can :read, Reply
+      can :create, Reply
+      can :update, Reply do |reply|
+        reply.try(:user) == user
+      end
+      can :destroy, Reply do |reply|
+        reply.try(:user) == user
+      end
     elsif user.regular?
       can :read, Car
       can :read, Auto
+      can :read, Comment
+      can :create, Comment
+      can :update, Comment do |comment|
+        comment.try(:user) == user
+      end
+      can :destroy, Comment do |comment|
+        comment.try(:user) == user
+      end
+      can :read, Reply
+      can :create, Reply
+      can :update, Reply do |reply|
+        reply.try(:user) == user
+      end
+      can :destroy, Reply do |reply|
+        reply.try(:user) == user
+      end
     end
   end
 end

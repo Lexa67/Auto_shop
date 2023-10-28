@@ -10,12 +10,18 @@ class UsersController < ApplicationController
   # GET /users/1 or /users/1.json
   def show
     @joined_on = @user.created_at.to_formatted_s(:short)
-  
     if @user.current_sign_in_at
       @last_login = @user.current_sign_in_at.to_formatted_s(:short)
     else
       @last_login = 'never'
     end
+    
+    @cars = Car.where(user_id: params[:id])
+      if @cars.present?
+        @cars
+      else
+        flash.now[:alert] = 'This user cannot have a cars or has not created one'
+      end
   end
 
   # GET /users/new
@@ -69,6 +75,23 @@ class UsersController < ApplicationController
     end
   end
 
+  def update_status
+    @user = User.find_by(id: params[:id])
+    if @user
+      if params[:status] == "1"
+        @user.update(status: 1)
+        redirect_to @user, notice: "User status updated successfully. Blocked"
+ 
+      elsif params[:status] == "0"
+        @user.update(status: 0)
+        redirect_to @user, notice: "User status updated successfully. Unblocked"
+
+      end
+    else
+      redirect_to @user, alert: "User not found."
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
 
@@ -78,7 +101,8 @@ class UsersController < ApplicationController
                                    :user_name,
                                    :password,
                                    :password_confirmation,
-                                    :role_id,
+                                   :role_id,
+                                   :status
                                    )
     end
 

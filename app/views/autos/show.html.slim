@@ -6,7 +6,7 @@
 .container.col-md-5.offset-md-6
   div class="button_box" style="display: flex;"
 
-    = button_to "Destroy this auto", @auto, data: { turbo_method: :delete }, class: "btn btn-danger" 
+    = button_to "Destroy this auto", auto_path(@auto), data: { turbo_method: :delete }, method: :delete, class: "btn btn-danger"
 
     => link_to "Edit this auto", edit_auto_path(@auto),class: "btn btn-outline-warning"
 

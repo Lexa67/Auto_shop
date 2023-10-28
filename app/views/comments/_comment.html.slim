@@ -1,0 +1,44 @@
+strong style="text-align: left"
+  = link_to "#{comment.user.user_name} ", comment.user, class: "btn btn-outline-primary", style: "font-size: 20px; margin-top: -4px; font-weight: bold; border: 0"
+  i style="font-size: 15px; color: grey"
+    = comment.created_at.strftime('%H:%M:%S ___ %d.%m.%Y')
+
+- if comment.user.status == "unblocked"
+  .card_comment
+    = comment.content
+    div.button_box style="display: flex; justify-content: flex-end; margin-bottom: 1px"
+      - if can? :edit, comment
+        = link_to edit_comment_path(comment), class: "btn ofsset-md-11" do 
+          svg[xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16"]
+            path[d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"]
+      - if can? :destroy, comment
+        = button_to comment_path(comment), method: :delete, class: "btn offset-md-11" do
+          svg[xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" color="red" class="bi bi-trash3-fill" viewBox="0 0 16 16"]
+            path[d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"]
+    hr style="margin-top: 1px"
+    p style="font-size: 20px; text-align: center; color: grey"
+      |Replies
+    - if current_user.status == "unblocked" 
+      = form_for(Reply.new) do |f|
+        .input-group
+          = f.text_area :content, placeholder: 'Write a reply...', class: "form-control"
+          .input-group-append
+            = button_tag(type: 'submit', class: 'btn btn-light', style: 'margin-left: 10px; background-color: #c9f5fd') do
+              svg[xmlns="http://www.w3.org/2000/svg" width="16" height="50" fill="currentColor" color="blue" class="bi bi-send-fill" viewBox="0 0 16 16"]
+                path[d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"]
+        = f.hidden_field :user_id, value: current_user.id
+        = f.hidden_field :comment_id, value: comment.id
+    - else
+      p style="text-align: center; color: red"
+        |You can't leave replies
+    .card_reply
+      - if @replies.any? { |reply| reply.comment_id == comment.id }
+          - @replies.each do |reply|
+            - if reply.comment_id == comment.id 
+              = render partial: 'replies/reply', locals: {reply: reply}
+      - else
+        p style="text-align: center"
+          |No replies
+- else
+  p style="text-align: center; color: red"
+    |Comment is hidden because the user is blocked
